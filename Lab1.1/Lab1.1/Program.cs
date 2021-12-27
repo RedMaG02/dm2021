@@ -10,30 +10,42 @@ namespace lab1_1
     class Program
     {
         public int[] obj;
-        public int n;
+        public int _n;
         public char[] alphabet;
-        public int k;
-        public Program(int _n, int _k)
+        public int _k;
+        public Program(int n, int k)
         {
-            n = _n;
-            k = _k;
+            _n = n;
+            _k = k;
             obj = new int[k];
             alphabet = new char[n];
 
         }
-        public void SetAlphabet() // Устанавливаем множество для генерации перестановок - порядок ввода == порядку в генерации
+        public Program(int n,int k,int j)
         {
-            for (int i = 0; i < n; i++)
-            {
-                Console.WriteLine("Simvol alfavita:");
-                alphabet[i] = Convert.ToChar(Console.ReadLine());
-            }
+            _n = n;
+            _k = k;
+            obj = new int[n];
+            alphabet = new char[n];
+
         }
-        public void NextCombObj() // генерация следующего объекта
+        public void SetAlphabet(char a, int i) // Устанавливаем множество для генерации перестановок - порядок ввода == порядку в генерации
         {
-            for (int i = k - 1; i > -1; i--)
+
+                alphabet[i] = a;
+
+        }
+        void Swap(int i, int j)
+        {
+            int b = obj[i];
+            obj[i] = obj[j];
+            obj[j] = b;
+        }
+        public void NextASPovt() // генерация следующего размещения 
+        {
+            for (int i = _k - 1; i > -1; i--)
             {
-                if (obj[i] == n - 1)
+                if (obj[i] == _n - 1)
                 {
                     obj[i] = 0;
                     continue;
@@ -42,18 +54,84 @@ namespace lab1_1
                 break;
             }
         }
-        public bool LastObj() // true - последняя подстановка сгенерирована
+        public bool LastASPoct() // true - размещение сгенерирована
         {
             bool b = true;
-            for(int i = 0;i<k;i++)
+            for(int i = 0;i<_k;i++)
             {
-                if (obj[i] != n - 1)
+                if (obj[i] != _n - 1)
                 {
                     b = false;
                     break;
                 }
             }
             return b;
+        }
+        public bool NextPer()
+        {
+            int j = _n - 2;
+            while(j!=-1 && obj[j] >= obj[j+1])
+            {
+                j--;
+            }
+
+            if (j == -1)
+            {
+                return false;
+            }
+
+            int k = _n - 1;
+            while(obj[j]>=obj[k])
+            {
+                k--;
+            }
+
+            Swap(j, k);
+
+            int c = j + 1;
+            int r = _n - 1;
+
+            while(c<r)
+            {
+                Swap(c++, r--);
+            }
+            
+            return true;
+        }
+        public bool NextA()
+        {
+            int j;
+            do
+            {
+                j = _n - 2; 
+                while (j != -1 && obj[j] >= obj[j + 1])
+                {
+                    j--;
+                }
+
+                if (j == -1)
+                {
+                    return false;
+                }
+
+                int k = _n - 1;
+                while (obj[j] >= obj[k])
+                {
+                    k--;
+                }
+
+                Swap(j, k);
+
+                int c = j + 1;
+                int r = _n - 1;
+
+                while (c < r)
+                {
+                    Swap(c++, r--);
+                }
+            } while (j > _k - 1);
+
+            return true;
         }
 
 
@@ -64,15 +142,29 @@ namespace lab1_1
             Console.WriteLine("Dlinu slova:");
             int k = Convert.ToInt32(Console.ReadLine());
             Program obj = new Program(n, k);
-            obj.SetAlphabet();
-            for (int i = 0; i < obj.k; i++)
+            Program obj2 = new Program(n, n);
+            Program obj3 = new Program(n, k, 0);
+            Program obj4 = new Program(n, k);
+            Program obj5 = new Program(n, k);
+            Program obj6 = new Program(n, k);
+            for (int i = 0; i < n; i++)
+            {
+                Console.WriteLine("simvol alfavita: ");
+                char a = Convert.ToChar(Console.ReadLine());
+                obj.SetAlphabet(a,i);
+                obj2.SetAlphabet(a,i);
+                obj3.SetAlphabet(a,i);
+                obj4.SetAlphabet(a,i);
+                obj5.SetAlphabet(a,i);
+                obj6.SetAlphabet(a,i);
+            }
+            for (int i = 0; i < obj._k; i++)
             {
                 obj.obj[i] = 0;
-            }
-            FileInfo file = new FileInfo(@"C:\dm2021\Lab1.1\Lab1.1\list.txt");
-            StreamWriter sw = file.AppendText();
+            } 
+            StreamWriter sw = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list1.txt");                                          //1
 
-            sw.Write("n = " +n+ " k = "+k+ " kolvo strok = n^k = " +Math.Pow(obj.n,obj.k) + " alphabet = {");
+            sw.Write("n = " +n+ " k = "+k+ " kolvo strok = n^k = " +Math.Pow(obj._n,obj._k) + " alphabet = {");
 
             for (int i =0;i<n;i++)
             {
@@ -80,16 +172,16 @@ namespace lab1_1
             }
             sw.WriteLine("}");
 
-            while (!obj.LastObj())
+            while (!obj.LastASPoct()) //Вывод перестановок с повт
             {
-                for (int i = 0; i < k; i++) // вывод текущего объекта
+                for (int i = 0; i < k; i++) 
                 {
                     sw.Write(obj.alphabet[obj.obj[i]]);
 
                 }
                 sw.WriteLine();
 
-                obj.NextCombObj();
+                obj.NextASPovt();
             }
             for (int i = 0; i < k; i++)
             {
@@ -97,6 +189,103 @@ namespace lab1_1
 
             }
             sw.Close();
+
+            StreamWriter sw2 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list2.txt");                       //2
+
+            for (int i = 0; i < obj2._k; i++)
+            {
+                obj2.obj[i] = i;
+            }
+            int c = 1;
+            for(int i = 1;i < n+1;i++)
+            {
+                c *= i;
+            }
+            sw2.Write("n = " + n + " kolvo strok = n! = " + c + " alphabet = {");
+
+            for (int i = 0; i < n; i++)
+            {
+                sw2.Write(obj2.alphabet[i] + " ");
+            }
+            sw2.WriteLine("}");
+
+            for (int i =0;i<n;i++)
+            {
+                obj2.obj[i] = i;
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                sw2.Write(obj2.alphabet[obj2.obj[i]]);
+
+            }
+            sw2.WriteLine();
+
+            while (obj2.NextPer()) //Вывод перестановок с повт
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    sw2.Write(obj2.alphabet[obj2.obj[i]]);
+
+                }
+                sw2.WriteLine();
+
+            }
+            
+            sw2.Close();
+
+            int c1;
+            if (obj3._k <= obj3._n)
+            {
+                //for (int i = 0; i < obj3._k; i++)
+                //{
+                //    obj3.obj[i] = i;
+                //}
+                StreamWriter sw3 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list3.txt");                           //3
+
+                c = 1;
+                for (int i = 1; i < n + 1; i++)
+                {
+                    c *= i;
+                }
+                c1=1;
+                for (int i = 1; i < (n - k) + 1; i++)
+                {
+                    c1 *= i;
+                }
+                sw3.Write("n = " + n + " k = " + k + " kolvo strok = n!/(n-k)! = " + c/c1 + " alphabet = {");
+
+                for (int i = 0; i < n; i++)
+                {
+                    sw3.Write(obj3.alphabet[i] + " ");
+                }
+                sw3.WriteLine("}");
+
+                for (int i = 0; i < n; i++)
+                {
+                    obj3.obj[i] = i;
+                }
+
+
+                for (int i = 0; i < k; i++)
+                {
+                    sw3.Write(obj3.alphabet[obj3.obj[i]]);
+
+                }
+                sw3.WriteLine();
+                while (obj3.NextA()) //Вывод перестановок с повт
+                {
+                    for (int i = 0; i < k; i++)
+                    {
+                        sw3.Write(obj3.alphabet[obj3.obj[i]]);
+
+                    }
+                    sw3.WriteLine();
+
+                }
+
+                sw3.Close();
+            }
 
             Console.WriteLine("1");
         }
