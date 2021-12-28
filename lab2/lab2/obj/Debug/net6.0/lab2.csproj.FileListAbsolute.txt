@@ -1,0 +1,15 @@
+C:\dm2021\lab2\lab2\bin\Debug\net6.0\lab2.exe
+C:\dm2021\lab2\lab2\bin\Debug\net6.0\lab2.deps.json
+C:\dm2021\lab2\lab2\bin\Debug\net6.0\lab2.runtimeconfig.json
+C:\dm2021\lab2\lab2\bin\Debug\net6.0\lab2.dll
+C:\dm2021\lab2\lab2\bin\Debug\net6.0\ref\lab2.dll
+C:\dm2021\lab2\lab2\bin\Debug\net6.0\lab2.pdb
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.csproj.AssemblyReference.cache
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.GeneratedMSBuildEditorConfig.editorconfig
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.AssemblyInfoInputs.cache
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.AssemblyInfo.cs
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.csproj.CoreCompileInputs.cache
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.dll
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\ref\lab2.dll
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.pdb
+C:\dm2021\lab2\lab2\obj\Debug\net6.0\lab2.genruntimeconfig.cache
