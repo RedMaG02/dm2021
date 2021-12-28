@@ -7,6 +7,7 @@ using System.IO;
 
 namespace lab1_1
 {
+    // ДО МЕТОДА MAIN ПРОГРАММА ПОВТОРЯЕТ ЛАБ1 КОММЕНТИТЬ НЕ БУДУ, хочу спать...
     class Program
     {
         public int[] obj;
@@ -29,7 +30,7 @@ namespace lab1_1
             alphabet = new char[n];
 
         }
-        public void SetAlphabet(char a, int i) // Устанавливаем множество для генерации перестановок - порядок ввода == порядку в генерации
+        public void SetAlphabet(char a, int i) 
         {
 
             alphabet[i] = a;
@@ -41,7 +42,7 @@ namespace lab1_1
             obj[i] = obj[j];
             obj[j] = b;
         }
-        public void NextASPovt() // генерация следующего размещения 
+        public void NextASPovt() 
         {
             for (int i = _k - 1; i > -1; i--)
             {
@@ -54,7 +55,7 @@ namespace lab1_1
                 break;
             }
         }
-        public bool LastASPoct() // true - размещение сгенерирована
+        public bool LastASPoct() 
         {
             bool b = true;
             for (int i = 0; i < _k; i++)
@@ -165,8 +166,8 @@ namespace lab1_1
 
         static void Main(string[] args)
         {
-            //////////////////////////////////////////////////////////// C(2/5)*5*5*5
-            Program obj1 = new Program(5, 3); // тут перестановки
+            //////////////////////////////////////////////////////////// C(2/5)*5*5*5 = 1250
+            Program obj1 = new Program(5, 3); // тут Размещения с повторениями
             obj1.alphabet[0] = 'b';
             obj1.alphabet[1] = 'c';
             obj1.alphabet[2] = 'd';
@@ -177,7 +178,7 @@ namespace lab1_1
                 obj1.obj[i] = 0;
             }
 
-            Program obj2 = new Program(5, 2);// тут позиция для а
+            Program obj2 = new Program(5, 2);// тут позиция для а т.е. сочетания из 5 по 2
             obj2.alphabet[0] = '1';
             obj2.alphabet[1] = '2';
             obj2.alphabet[2] = '3';
@@ -193,15 +194,15 @@ namespace lab1_1
             {
                 do
                 {
-                    for(int i = 1,k=0; i < 6;i++)
+                    for(int i = 1,k=0; i < 6;i++) // длина слова - 5 длина размещения - 3 проходимся по индексам, если он звзят размещением, то выводим а, если нет то член размещения
                     {
-                        if (obj2.alphabet[obj2.obj[0]] == (char)i+48 || obj2.alphabet[obj2.obj[1]] == (char)i + 48) 
+                        if (obj2.alphabet[obj2.obj[0]] == (char)i+48 || obj2.alphabet[obj2.obj[1]] == (char)i + 48) // проверка на совпадение индексов, конверт ту чар не работает или работает но не так, так что костыль
                         {
-                                sw.Write('a');
+                                sw.Write('a');  // непосредсвтенно вывод слова
                         }
                         else
                         {
-                            sw.Write(obj1.alphabet[obj1.obj[k]]);
+                            sw.Write(obj1.alphabet[obj1.obj[k]]);  // непосредсвтенно вывод слова
                             k++;
                         }
                     }
@@ -224,11 +225,14 @@ namespace lab1_1
             }//
             sw.WriteLine();
             sw.Close();
+
+
+
             ////////////////////////////////////////////
-            ////////////////////////////////////////////
+            //////////////////////////////////////////// ТУТ ВСЕ КАК в 2.1 ТОЛЬКО ВМЕСТО РАЗМЕЩ С ПОВТОРЕНИЯМИ ПРОСТО РАЗМЕЩЕНИЯ
             //////////////////////////////////////////// 2.2 C(2/5)*A(3/5) = 600
 
-            Program obj3 = new Program(5, 3,0); // тут перестановки
+            Program obj3 = new Program(5, 3,0); 
             obj3.alphabet[0] = 'b';
             obj3.alphabet[1] = 'c';
             obj3.alphabet[2] = 'd';
@@ -239,7 +243,7 @@ namespace lab1_1
                 obj3.obj[i] = i;
             }
 
-            Program obj4 = new Program(5, 2);// тут позиция для а
+            Program obj4 = new Program(5, 2);
             obj4.alphabet[0] = '1';
             obj4.alphabet[1] = '2';
             obj4.alphabet[2] = '3';
@@ -281,3 +285,9 @@ namespace lab1_1
         }
     }
 }
+//┈┈┈┈★┈┈┈┈
+//┈┈┈★▇★┈┈┈
+//┈┈★▇▇▇★┈┈
+//┈★▇▇▇▇▇★┈
+//★▇▇▇▇▇▇▇★
+//┈┈┈┈▇┈┈┈┈

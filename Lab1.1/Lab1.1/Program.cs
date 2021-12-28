@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+// Сами объекты хранятся в списках в папке проекта, там же находится рассчитанное кол-во этих объектов по формулам
+//
+//
 namespace lab1_1
 {
     class Program
     {
-        public int[] obj;
-        public int _n;
-        public char[] alphabet;
-        public int _k;
-        public Program(int n, int k)
+        public int[] obj; // хранит сам объект
+        public int _n; // n
+        public char[] alphabet; // Хранит алфавит
+        public int _k; // k
+        public Program(int n, int k) // конструктор стандартный
         {
             _n = n;
             _k = k;
@@ -21,7 +23,7 @@ namespace lab1_1
             alphabet = new char[n];
 
         }
-        public Program(int n,int k,int j)
+        public Program(int n,int k,int j) // конструктор для размещений из н по к
         {
             _n = n;
             _k = k;
@@ -41,7 +43,7 @@ namespace lab1_1
             obj[i] = obj[j];
             obj[j] = b;
         }
-        public void NextASPovt() // генерация следующего размещения 
+        public void NextASPovt() // генерация следующего размещения с повторением
         {
             for (int i = _k - 1; i > -1; i--)
             {
@@ -54,7 +56,7 @@ namespace lab1_1
                 break;
             }
         }
-        public bool LastASPoct() // true - размещение сгенерирована
+        public bool LastASPoct() // true - последнее размещение с повторением сгенерировано 
         {
             bool b = true;
             for(int i = 0;i<_k;i++)
@@ -67,7 +69,7 @@ namespace lab1_1
             }
             return b;
         }
-        public bool NextPer()
+        public bool NextPer() // генерация перестановки возвращает false когда последняя сгенерирована
         {
             int j = _n - 2;
             while(j!=-1 && obj[j] >= obj[j+1])
@@ -98,7 +100,7 @@ namespace lab1_1
             
             return true;
         }
-        public bool NextA()
+        public bool NextA() // генерация размещения возвращает false когда последняя сгенерирована
         {
             int j;
             do
@@ -134,7 +136,7 @@ namespace lab1_1
             return true;
         }
 
-        bool NextSoch(int c)
+        bool NextSoch(int c) // генерация сочетания из н по к. int c == k false когда последняя сгенерирована
         {
             int k = c;
             for (int i = k - 1; i >= 0; i--)
@@ -147,7 +149,7 @@ namespace lab1_1
                 }
             return false;
         }
-        bool NextSochSPovt()
+        bool NextSochSPovt() // генерация сочетаний с повторением  false когда последняя сгенерирована
         {
             int j = _k - 1;
             while ( j >= 0 && obj[j] == _n - 1) j--;
@@ -165,6 +167,7 @@ namespace lab1_1
 
         static void Main(string[] args)
         {
+            ////////////////////////////////////////////////////////////1.1  РАЗМЕЩЕНИЯ С ПОВТОРЕНИЯМИ ИЗ N по K
             Console.WriteLine("Vvedite razmernost alpfavita");
             int n = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Dlinu slova:");
@@ -190,9 +193,10 @@ namespace lab1_1
             {
                 obj.obj[i] = 0;
             }
-            /*StreamWriter sw = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list1.txt");*/                                          //1
+
+            /*StreamWriter sw = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list1.txt");*/                                          
             StreamWriter sw = new StreamWriter(@"D:\dm2021\dm2021\Lab1.1\Lab1.1\list1.txt");
-            sw.Write("n = " +n+ " k = "+k+ " kolvo strok = n^k = " +Math.Pow(obj._n,obj._k) + " alphabet = {");
+            sw.Write("n = " +n+ " k = "+k+ " kolvo strok = n^k = " +Math.Pow(obj._n,obj._k) + " alphabet = {"); // Вывод строки информации об объектах
 
             for (int i =0;i<n;i++)
             {
@@ -200,7 +204,7 @@ namespace lab1_1
             }
             sw.WriteLine("}");
 
-            while (!obj.LastASPoct()) //Вывод перестановок с повт
+            while (!obj.LastASPoct()) // вывод слова в цикле и генерация следующего 
             {
                 for (int i = 0; i < k; i++) 
                 {
@@ -211,25 +215,27 @@ namespace lab1_1
 
                 obj.NextASPovt();
             }
-            for (int i = 0; i < k; i++)
+            for (int i = 0; i < k; i++) // последнее слово
             {
                 sw.Write(obj.alphabet[obj.obj[i]]);
 
             }
             sw.Close();
 
-            /* StreamWriter sw2 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list2.txt");*/                       //2
+            ////////////////////////////////////////////////////////////////////////////////////1.2 ПЕРЕСТАНОВКИ ИЗ N
+
+            /* StreamWriter sw2 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list2.txt");*/                       
             StreamWriter sw2 = new StreamWriter(@"D:\dm2021\dm2021\Lab1.1\Lab1.1\list2.txt");
             for (int i = 0; i < obj2._k; i++)
             {
                 obj2.obj[i] = i;
             }
             int c = 1;
-            for(int i = 1;i < n+1;i++)
+            for(int i = 1;i < n+1;i++)       // Тут факториалы для формул расчета количества объектов
             {
                 c *= i;
             }
-            sw2.Write("n = " + n + " kolvo strok = n! = " + c + " alphabet = {");
+            sw2.Write("n = " + n + " kolvo strok = n! = " + c + " alphabet = {");   // Вывод строки информации об объектах
 
             for (int i = 0; i < n; i++)
             {
@@ -237,7 +243,7 @@ namespace lab1_1
             }
             sw2.WriteLine("}");
 
-            for (int i =0;i<n;i++)
+            for (int i =0;i<n;i++) // первое слово
             {
                 obj2.obj[i] = i;
             }
@@ -249,7 +255,7 @@ namespace lab1_1
             }
             sw2.WriteLine();
 
-            while (obj2.NextPer()) //Вывод перестановок с повт
+            while (obj2.NextPer()) // вывод слова в цикле и генерация следующего 
             {
                 for (int i = 0; i < n; i++)
                 {
@@ -262,17 +268,14 @@ namespace lab1_1
             
             sw2.Close();
 
+            ////////////////////////////////////////////////////////////////////////////////////1.3 РАЗМЕЩЕНИЯ БЕЗ ПОВТОРЕНИЙ ИЗ N по K
+
             int c1;
             if (obj3._k <= obj3._n)
-            {
-                //for (int i = 0; i < obj3._k; i++)
-                //{
-                //    obj3.obj[i] = i;
-                //}
-                /* StreamWriter sw3 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list3.txt");*/                           //3
+            {                  
                 StreamWriter sw3 = new StreamWriter(@"D:\dm2021\dm2021\Lab1.1\Lab1.1\list3.txt");
                 c = 1;
-                for (int i = 1; i < n + 1; i++)
+                for (int i = 1; i < n + 1; i++)       // Тут факториалы для формул расчета количества объектов
                 {
                     c *= i;
                 }
@@ -281,7 +284,7 @@ namespace lab1_1
                 {
                     c1 *= i;
                 }
-                sw3.Write("n = " + n + " k = " + k + " kolvo strok = n!/(n-k)! = " + c/c1 + " alphabet = {");
+                sw3.Write("n = " + n + " k = " + k + " kolvo strok = n!/(n-k)! = " + c/c1 + " alphabet = {");  // Вывод строки информации об объектах
 
                 for (int i = 0; i < n; i++)
                 {
@@ -289,7 +292,7 @@ namespace lab1_1
                 }
                 sw3.WriteLine("}");
 
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < n; i++) // первое слово
                 {
                     obj3.obj[i] = i;
                 }
@@ -301,7 +304,7 @@ namespace lab1_1
 
                 }
                 sw3.WriteLine();
-                while (obj3.NextA()) //Вывод перестановок с повт
+                while (obj3.NextA()) // вывод слова в цикле и генерация следующего 
                 {
                     for (int i = 0; i < k; i++)
                     {
@@ -316,6 +319,8 @@ namespace lab1_1
             }
 
 
+            ////////////////////////////////////////////////////////////////////////////////////1.5 СОЧЕТАНИЯ ИЗ N по K
+
             //StreamWriter sw5 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list5.txt");
             StreamWriter sw5 = new StreamWriter(@"D:\dm2021\dm2021\Lab1.1\Lab1.1\list5.txt");
 
@@ -325,7 +330,7 @@ namespace lab1_1
                 c *= i;
             }
             c1 = 1;
-            for (int i = 1; i < (n - k) + 1; i++)
+            for (int i = 1; i < (n - k) + 1; i++)       // Тут факториалы для формул расчета количества объектов
             {
                 c1 *= i;
             }
@@ -335,7 +340,7 @@ namespace lab1_1
                 c2 *= i;
             }
 
-            sw5.Write("n = " + n + " k = " + k + " kolvo strok = n!/((n-k)!*k!) = " + c/(c1*c2) + " alphabet = {");
+            sw5.Write("n = " + n + " k = " + k + " kolvo strok = n!/((n-k)!*k!) = " + c/(c1*c2) + " alphabet = {");  // Вывод строки информации об объектах
 
             for (int i = 0; i < n; i++)
             {
@@ -343,7 +348,7 @@ namespace lab1_1
             }
             sw5.WriteLine("}");
 
-            for(int i = 0; i < k;i++)
+            for(int i = 0; i < k;i++) // первое слово
             {
                 obj5.obj[i] = i;
             }
@@ -355,7 +360,7 @@ namespace lab1_1
             }
             sw5.WriteLine();
 
-            while (obj5.NextSoch(obj5._k)) //Вывод перестановок с повт
+            while (obj5.NextSoch(obj5._k)) // вывод слова в цикле и генерация следующего 
             {
                 for (int i = 0; i < k; i++)
                 {
@@ -369,12 +374,14 @@ namespace lab1_1
             sw5.Close();
 
 
+            ////////////////////////////////////////////////////////////////////////////////////1.4 ВСЕ ПОДМНОЖЕСТВА МНОЖЕСТВА
+
             //StreamWriter sw4 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list4.txt");
             StreamWriter sw4 = new StreamWriter(@"D:\dm2021\dm2021\Lab1.1\Lab1.1\list4.txt");
 
             
 
-            sw4.Write("n = " + n +  " kolvo strok = 2^n = " + Math.Pow(2,n) + " alphabet = {");
+            sw4.Write("n = " + n +  " kolvo strok = 2^n = " + Math.Pow(2,n) + " alphabet = {");  // Вывод строки информации об объектах
 
             for (int i = 0; i < n; i++)
             {
@@ -383,7 +390,7 @@ namespace lab1_1
             sw4.WriteLine("}");
             for (int l = 0; l < n+1; l++)
             {
-                for (int i = 0; i < l; i++)
+                for (int i = 0; i < l; i++) // первое слово
                 {
                     obj4.obj[i] = i;
                 }
@@ -395,7 +402,7 @@ namespace lab1_1
                 }
                 sw4.WriteLine();
 
-                while (obj4.NextSoch(l)) //Вывод перестановок с повт
+                while (obj4.NextSoch(l)) // вывод слова в цикле и генерация следующего 
                 {
                     for (int i = 0; i < l; i++)
                     {
@@ -409,6 +416,8 @@ namespace lab1_1
             sw4.Close();
 
 
+            ////////////////////////////////////////////////////////////////////////////////////1.6 СОЧЕТАНИЯ С ПОВТОРЕНИЯМИ ИЗ N по K
+
             //StreamWriter sw5 = new StreamWriter(@"C:\dm2021\Lab1.1\Lab1.1\list5.txt");
             StreamWriter sw6 = new StreamWriter(@"D:\dm2021\dm2021\Lab1.1\Lab1.1\list6.txt");
 
@@ -418,7 +427,7 @@ namespace lab1_1
                 c *= i;
             }
             c1 = 1;
-            for (int i = 1; i < (n + k) ; i++)
+            for (int i = 1; i < (n + k) ; i++)       // Тут факториалы для формул расчета количества объектов
             {
                 c1 *= i;
             }
@@ -428,7 +437,7 @@ namespace lab1_1
                 c2 *= i;
             }
 
-            sw6.Write("n = " + n + " k = " + k + " kolvo strok = (n+k-1)!/((n-1)! * k!) = " + c1 / (c * c2) + " alphabet = {");
+            sw6.Write("n = " + n + " k = " + k + " kolvo strok = (n+k-1)!/((n-1)! * k!) = " + c1 / (c * c2) + " alphabet = {");  // Вывод строки информации об объектах
 
             for (int i = 0; i < n; i++)
             {
@@ -436,23 +445,23 @@ namespace lab1_1
             }
             sw6.WriteLine("}");
 
-            for (int i = 0; i < k; i++)
+            for (int i = 0; i < k; i++) // первое слово
             {
-                obj6.obj[i] = 0;
+                obj6.obj[i] = 0; 
             }
 
-            for (int i = 0; i < k; i++)
+            for (int i = 0; i < k; i++) // вывод 1 слова
             {
                 sw6.Write(obj6.alphabet[obj6.obj[i]]);
 
             }
             sw6.WriteLine();
 
-            while (obj6.NextSochSPovt()) //Вывод перестановок с повт
+            while (obj6.NextSochSPovt()) 
             {
                 for (int i = 0; i < k; i++)
                 {
-                    sw6.Write(obj6.alphabet[obj6.obj[i]]);
+                    sw6.Write(obj6.alphabet[obj6.obj[i]]);  // вывод слова в цикле и генерация следующего 
 
                 }
                 sw6.WriteLine();
@@ -465,3 +474,9 @@ namespace lab1_1
         }
     }
 }
+//┈┈┈┈★┈┈┈┈
+//┈┈┈★▇★┈┈┈
+//┈┈★▇▇▇★┈┈
+//┈★▇▇▇▇▇★┈
+//★▇▇▇▇▇▇▇★
+//┈┈┈┈▇┈┈┈┈

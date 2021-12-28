@@ -7,6 +7,7 @@ using System.IO;
 
 namespace lab1_1
 {
+    // ДО МЕТОДА MAIN ПРОГРАММА ПОВТОРЯЕТ ЛАБ1 и ЛАБ2 КОММЕНТИТЬ НЕ БУДУ, хочу спать...
     class Program
     {
         public int[] obj;
@@ -29,7 +30,7 @@ namespace lab1_1
             alphabet = new char[n];
 
         }
-        public void SetAlphabet(char a, int i) // Устанавливаем множество для генерации перестановок - порядок ввода == порядку в генерации
+        public void SetAlphabet(char a, int i) 
         {
 
             alphabet[i] = a;
@@ -41,7 +42,7 @@ namespace lab1_1
             obj[i] = obj[j];
             obj[j] = b;
         }
-        public void NextASPovt() // генерация следующего размещения 
+        public void NextASPovt() 
         {
             for (int i = _k - 1; i > -1; i--)
             {
@@ -54,7 +55,7 @@ namespace lab1_1
                 break;
             }
         }
-        public bool LastASPoct() // true - размещение сгенерирована
+        public bool LastASPoct() 
         {
             bool b = true;
             for (int i = 0; i < _k; i++)
@@ -165,8 +166,8 @@ namespace lab1_1
 
         static void Main(string[] args)
         {
-
-            Program obj3 = new Program(6, 3, 0); // тут перестановки
+            ////////////////////////////////////////////3.1 ПОЧТИ ПОВТОРЯЕТ 2.2 НУЖЕН ЕЩЕ ОДИН ЦИКЛ ЧТОБЫ БРАТЬ НЕ ТОЛЬКО а т.е. количество = 600 * 6 = 3600
+            Program obj3 = new Program(6, 3, 0);  
             obj3.alphabet[0] = 'a';
             obj3.alphabet[1] = 'b';
             obj3.alphabet[2] = 'c';
@@ -179,21 +180,21 @@ namespace lab1_1
             }
             obj3._n = 5;
 
-            Program obj4 = new Program(5, 2);// тут позиция для а
+            Program obj4 = new Program(5, 2);
             obj4.alphabet[0] = '1';
             obj4.alphabet[1] = '2';
             obj4.alphabet[2] = '3';
             obj4.alphabet[3] = '4';
             obj4.alphabet[4] = '5';
 
-            StreamWriter sw2 = new StreamWriter(@"C:\dm2021\laba3\laba3\lab3.3.txt");
+            StreamWriter sw2 = new StreamWriter(@"C:\dm2021\laba3\laba3\lab3.1.txt");
             for (int i = 0; i < 2; i++)
             {
                 obj4.obj[i] = i;
             }
-            for (int p = 0; p < 6; p++)
+            for (int p = 0; p < 6; p++) // Вот тут отличается от 2.2
             {
-                Array.Resize(ref obj3.alphabet, 6);
+                Array.Resize(ref obj3.alphabet, 6); 
                 obj3.alphabet[0] = 'a';
                 obj3.alphabet[1] = 'b';
                 obj3.alphabet[2] = 'c';
@@ -202,7 +203,7 @@ namespace lab1_1
                 obj3.alphabet[5] = 'f';
                 char a = obj3.alphabet[p];
                 obj3.alphabet[p] = '0';
-                Array.Sort(obj3.alphabet); // Нечто страшное
+                Array.Sort(obj3.alphabet); // Нечто страшное, тут мы вычленяем из алфавита, букву которая будет 2 раза повторяться, наверное можно сделать и эффективнее
                 Array.Reverse(obj3.alphabet); 
                 Array.Resize(ref obj3.alphabet, 5);
                 Array.Reverse(obj3.alphabet);
@@ -236,12 +237,13 @@ namespace lab1_1
                 } while (obj4.NextSoch(2));
             }
 
-
             sw2.WriteLine();
             sw2.Close();
 
 
-
+            //////////////////////////////////////////3.2 4 ВЛОЖЕННЫХ ЦИКЛА  CHOOSE ОТВЕЧАЕТ ЗА ВЫБОР 2 БУКВ КОТОРЫЕ ПОВТОРЯЮТСЯ 2 РАЗА C(2/6), c26 - выбираем 2 места из 6 для 1 буквы С(2/6)
+            ///////////////////////////////////////// C(2/4) - c24 Выбираем 2 места для второй буквы. obj31 - тут генерим размещения из 4 по 2 A(2/4)
+            ///////////////////////////////////////// ИТОГОВАЯ ФОРМУЛА: C(2/6) * C(2/6) * C(2/4) * A(2/4) = 16200
             Program obj31 = new Program(6, 2,0);
             Program c26 = new Program(6, 2);
             Program c24 = new Program(6, 2);
@@ -376,3 +378,9 @@ namespace lab1_1
         }
     }
 }
+//┈┈┈┈★┈┈┈┈
+//┈┈┈★▇★┈┈┈
+//┈┈★▇▇▇★┈┈
+//┈★▇▇▇▇▇★┈
+//★▇▇▇▇▇▇▇★
+//┈┈┈┈▇┈┈┈┈
